@@ -24,9 +24,9 @@ can be build manually (see below), but require a working Python 3 installation.
 
 Unpack the `borgmatic-<version>-<architecture>.tar.gz` archive and move the
 three borgmatic executables (`borgmatic`, `generate-borgmatic-config` and
-`upgrade-borgmatic-config`) into a convenient location (ideally somewhere in
-your PATH). When installing in a system directory, like `/usr/local/bin`, root
-permissions or using the `sudo` command might be necessary.
+`upgrade-borgmatic-config`) from the subdirectory `bin` to a convenient location
+somewhere in your PATH. When installing in a system directory, e.g. into
+`/usr/local/bin`, root permissions or using the `sudo` command will be necessary.
 
 ## Building manually
 
@@ -38,9 +38,11 @@ current python environment.
 
 Clone the repository, and then from the top directory:
 
-    make            # Builds binaries for the current system and creates a .tar.gz file
-    make clean      # Cleans up after a build, only leaving the generated .tar.gz file
-    make realclean  # Cleans up everything, also the generated .tar.gz file
+    make            # Builds binaries for the current system file
+    make dist       # Creates the distribution .tar.gz file
+    make clean      # Cleans up binaries
+    make realclean  # Cleans up binaries and the downloaded borgmatic source code
+    make distclean  # Cleans up binaries, downloaded borgmatic sources and the distribution .tar.gz file
 
 After the build, the three binaries can also be found in the directors
 `borgmatic-<version>/dist`; they will however be removed by `make clean`.
