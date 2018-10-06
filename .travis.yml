@@ -2,7 +2,7 @@ language: python
 python:
   - "3.6"
 install:
-  - pip install -r pyinstaller
+  - pip install pyinstaller
 script:
   - make
   - make dist
