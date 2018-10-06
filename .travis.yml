@@ -17,7 +17,7 @@ deploy:
   provider: releases
   api_key:
     secure: XX4Z/XvohZu8rpKeWT/RvZ5B0ezDW7o0wRBSEMt2xOMfMxtspYwgwLBixwQ3gJMNG/cI0yNA1/xN8uhVQAaYTQ8oRd1XAOtWBgbs9CTTwQs72ZzIkuJTeESOoA/3fSybwwoNiPcKdvWIZh7VHlW13kde2wn1Yd1yvQxd6mN6f6iDNHhJ6vtnuj7MBKiLK3KndJPQEikQTkB0ncxIAM6GMxIuvCdatEcm8OhryWyDYZIqLJmFhP+GkpxSD5rF3u9V4b2llrrasK2MnVEYzKr5frYQL9/KTKYXbDFp2muxldLwxXz2oLRLyvFswsRme/0NB/wfmV6NhBzJvQyAxiUPa7olWhTmZF1XYuwLyJHRqiHT5gZPRvlJe2FRUPl1Hk1CghiS3U9fyFUF39EylLxwi2YqMYxK9kbBG8N0OKoEK3yAsYDpKmdX4ZNSOB/lsuV5tomJ1qLOZgSecLLZaoNjI1RqMVLPhV0qt5HQAoIxcSeWlyFoOZZ8o1IcMkTrEb03INYA+i9bmFHjfLVowq3I1Ph3P98CVCED+vMJephXivXdsrC7qO/u8eTq5VPP1OEGqWjEB6PMxa/CNFXLXMXc/Yzrgdu4G3BKr+f89I9HXXyV5wVlYl/x5bDVIdk28ntrKy5WqZMCbAf+ocnalTijNylLVeuNQCsrJoJo9NZuZfM=
-  file: XXX
+  file: "borgmatic-1.2.6-x86_64-pc-linux-gnu.tar.gz"
   skip_cleanup: true
   on:
     tags: true
