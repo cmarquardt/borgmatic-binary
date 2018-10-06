@@ -13,11 +13,15 @@ after_script:
 - sha256sum borgmatic-*-*.tar.gz
 - sha1sum borgmatic-*-*.tar.gz
 - md5sum borgmatic-*-*.tar.gz
+before_deploy:
+- export RELEASE_FILE=$(ls borgmatic-*-*.tar.gz)
+- echo "Deploying $RELEASE_FILE to GitHub releases"
 deploy:
   provider: releases
   api_key:
     secure: EPwnjaQXh9zL71BIC8ivFV0S0kfj8BZvFE/C76yDDFdUcDRGwSc8KJiDkGNeC7htxJOE8zPYHzCk8iVO2WSebpr+Vxyvo2Q2n5tkf+QNxw4BB4Kt4GkLmd21okZ0VOE+3W2yssDjQAxUUvE1g2KaWn3r+qwU09H/Cpwlxez1jKISOrtxN4SMJea7vK5I+m5oxIRto06HPk+WwsQLV4fat9Jb/fFh6p1M6QcfeMO2BzMX/5LMq/pKCTOpymwlg1S83Rk/jzI2kexfmpTdPrAl/tsxYvkf3WFpqF0TBs3YO2GdqNPXa3yGwDqvaKx3oQfs8ZNu0Nku4/9CU4sg4IgQbdYC1fsrXKcbhQICCa9/CdE0aC28yJa9W+iUpo8KiHIDgcXe3X61JtI+btQFCk2uZ0a327rpo9SVe1GSJhRk/T2riEodR03A+a5rg0mkHbMUTD22rbwb89I3J+4phI7XePqNvJNcgtxn0nU6zrV48aAjtDGeu7XS2OFETpHLH03VESD21NjkWZTDYnGHm1W+oH+0XlMgTC61aqjrI2KsXUtmFQp5Yz62szToWeWjmGecqsLY1llNFnCXPoc0mz16QpCybC3uZdw4L8XFxJ5iI7tE4uUUpgsFeqCyOfgPgTJLlXZ+OnxtuyglQNjWCbb010L+USRS+93H95XRSnlSiSk=
-  file: borgmatic-1.2.6-x86_64-pc-linux-gnu.tar.gz
+  file_glob = true
+  file: $(RELEASE_FILE)
   skip_cleanup: true
   on:
     tags: true
