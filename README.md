@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/cmarquardt/borgmatic-binary.svg?branch=master)](https://travis-ci.com/cmarquardt/borgmatic-binary)
 
-## borgmatic-binary
+# borgmatic-binary
 
 ## Overview
 
@@ -18,7 +18,8 @@ is similar to the stand-alone `borg` binary availble from the `borg` download pa
 
 ## Releases
 
-Binary versions for 64-bit Linux systems can be downloaded from XXX; they track
+Binary versions for 64-bit Linux systems can be downloaded from the [releases
+page](https://github.com/cmarquardt/borgmatic-binary/releases); they track
 the official `borgmatic` releases. For other or non-Linux platforms, binaries
 can be build manually (see below), but require a working Python 3 installation.
 
