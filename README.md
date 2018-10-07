@@ -28,18 +28,27 @@ can be build manually (see below), but require a working Python 3 installation.
 Unpack the `borgmatic-<version>-<architecture>.tar.gz` archive and move the
 three borgmatic executables (`borgmatic`, `generate-borgmatic-config` and
 `upgrade-borgmatic-config`) from the subdirectory `bin` to a convenient location
-somewhere in your PATH. When installing in a system directory, e.g. into
-`/usr/local/bin`, root permissions or using the `sudo` command will be necessary.
+somewhere in your `PATH`, e.g.:
+
+    tar -xvf borgmatic-<version>-<architecture>.tar.gz
+    sudo cp borgmatic-<version>-<architecture>/bin/* /usr/local/bin
+
+ When installing in a system directory, e.g. into `/usr/local/bin` (as in the
+ example above), root permissions or using the `sudo` command will be necessary.
 
 ## Building manually
 
 Borgmatic requires Python 3; therefore the build will fail if the default python
-has an older (2.x) version. Ideally work in a vanilla virtualenv for python3.
+has an older (2.x) version. The ideal setup is to work in a vanilla virtualenv
+for python3, in which pyinstaller is installed with:
 
-The build process will install both `pyinstaller` and `borgmatic` into the
-current python environment.
+    pip install pyinstaller
 
-Clone the repository, and then from the top directory:
+The build process will install `borgmatic` into the current python environment.
+PyInstaller can make use [UPX](https://upx.github.io/) if it is installed;
+otherwise, the binaries will still be build, but require more space.
+
+After cloning the repository, the following make targets can be used:
 
     make            # Builds binaries for the current system file
     make dist       # Creates the distribution .tar.gz file
@@ -47,5 +56,9 @@ Clone the repository, and then from the top directory:
     make realclean  # Cleans up binaries and the downloaded borgmatic source code
     make distclean  # Cleans up binaries, downloaded borgmatic sources and the distribution .tar.gz file
 
-After the build, the three binaries can also be found in the directors
-`borgmatic-<version>/dist`; they will however be removed by `make clean`.
+After a `make`, the binaries build are available in the directory
+`borgmatic-<version>/dist`; they will be removed by `make clean`.
+
+## Reporting issues
+
+If you find issues, please open a ticket on the [issue tracker](https://github.com/cmarquardt/borgmatic-binary/issues/).
