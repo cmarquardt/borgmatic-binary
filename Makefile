@@ -16,8 +16,9 @@ endif
 # Main target
 
 all: borgmatic-${VERSION}/dist/borgmatic \
-	   borgmatic-${VERSION}/dist/generate-borgmatic-config \
-		 borgmatic-${VERSION}/dist/upgrade-borgmatic-config
+		 borgmatic-${VERSION}/dist/generate-borgmatic-config \
+		 borgmatic-${VERSION}/dist/upgrade-borgmatic-config \
+		 borgmatic-${VERSION}/dist/validate-borgmatic-config
 
 # Targets - individual binaries
 
@@ -33,6 +34,10 @@ borgmatic-${VERSION}/dist/upgrade-borgmatic-config: specs/upgrade-borgmatic-conf
 	cp specs/upgrade-borgmatic-config.spec borgmatic-${VERSION}
 	( cd borgmatic-${VERSION} ; pyinstaller upgrade-borgmatic-config.spec )
 
+borgmatic-${VERSION}/dist/validate-borgmatic-config: specs/validate-borgmatic-config.spec borgmatic-${VERSION}
+	cp specs/validate-borgmatic-config.spec borgmatic-${VERSION}
+	( cd borgmatic-${VERSION} ; pyinstaller validate-borgmatic-config.spec )
+
 # Targets - preparations
 
 borgmatic-${VERSION}:
@@ -44,13 +49,15 @@ borgmatic-${VERSION}:
 
 dist: borgmatic-${VERSION}/dist/borgmatic \
 	    borgmatic-${VERSION}/dist/generate-borgmatic-config \
-			borgmatic-${VERSION}/dist/upgrade-borgmatic-config
+			borgmatic-${VERSION}/dist/upgrade-borgmatic-config \
+			borgmatic-${VERSION}/dist/validate-borgmatic-config
 	mkdir -p borgmatic-${VERSION}-${ARCH}/bin
 	cp README.md borgmatic-${VERSION}-${ARCH}
 	cp LICENSE borgmatic-${VERSION}-${ARCH}
 	cp borgmatic-${VERSION}/dist/borgmatic borgmatic-${VERSION}-${ARCH}/bin
 	cp borgmatic-${VERSION}/dist/generate-borgmatic-config borgmatic-${VERSION}-${ARCH}/bin
 	cp borgmatic-${VERSION}/dist/upgrade-borgmatic-config borgmatic-${VERSION}-${ARCH}/bin
+	cp borgmatic-${VERSION}/dist/validate-borgmatic-config borgmatic-${VERSION}-${ARCH}/bin
 	tar -cvzf borgmatic-${VERSION}-${ARCH}.tar.gz borgmatic-${VERSION}-${ARCH}
 
 # Targets - cleaning up
