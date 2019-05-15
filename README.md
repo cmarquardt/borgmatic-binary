@@ -48,6 +48,20 @@ The build process will install `borgmatic` into the current python environment.
 PyInstaller can make use [UPX](https://upx.github.io/) if it is installed;
 otherwise, the binaries will still be build, but require more space.
 
+Note: With recent a recent version of `pip`, there seems to be a problem when 
+trying to install packages into a virtual environment with `--system-site-packages`
+enabled; it results in an error message stating that
+
+> `AttributeError: module 'setuptools.build_meta' has no attribute '__legacy__'`
+
+A workaround is to use
+
+    pip install --no-use-pep517 pyinstaller
+
+for the time being. See [this](https://github.com/pypa/pip/issues/6264) and 
+[this](https://github.com/pypa/setuptools/issues/1694) issue for `pip` and 
+`setuptools`, respectively.
+
 After cloning the repository, the following make targets can be used:
 
     make            # Builds binaries for the current system file
