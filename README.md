@@ -26,7 +26,7 @@ can be build manually (see below), but require a working Python 3 installation.
 ## Installation
 
 Unpack the `borgmatic-<version>-<architecture>.tar.gz` archive and move the
-three borgmatic executables (`borgmatic`, `generate-borgmatic-config`,
+four borgmatic executables (`borgmatic`, `generate-borgmatic-config`,
 `upgrade-borgmatic-config` and `validate-borgmatic-config`) from the
 subdirectory `bin` to a convenient location somewhere in your `PATH`, e.g.:
 
