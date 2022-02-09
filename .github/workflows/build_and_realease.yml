@@ -1,0 +1,79 @@
+name: Build and release
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  schedule:
+    - cron: '13 4 * * *'
+
+jobs:
+  build:
+    name: Build and release
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: 3.6
+
+      - name: Create Tag
+        if: "! startsWith(github.ref, 'refs/tags/')"
+        id: upstream_tag
+        run: |
+          set -eo pipefail
+          export UPSTREAM_RELEASE=$(
+            curl -sSL https://projects.torsion.org/api/v1/repos/borgmatic-collective/borgmatic/releases \
+              | jq -r .[].tag_name \
+              | sort -rV \
+              | head -n1
+          )
+          
+          [ -z "$UPSTREAM_RELEASE" ] && exit 1
+          
+          export LOCAL_RELEASE=$(curl -sSL https://api.github.com/repos/psi-4ward/borgmatic-binary/releases/latest | jq -r .name)
+          
+          echo "LOCAL_RELEASE: $LOCAL_RELEASE"
+          echo "UPSTREAM_RELEASE: $UPSTREAM_RELEASE"
+          
+          if [ "$LOCAL_RELEASE" == "$UPSTREAM_RELEASE" ]; then
+            echo No build needed
+            echo "::set-output name=BUILD::no"
+            exit 0
+          fi
+          echo "::set-output name=BUILD::yes"
+          echo "BUILD_TAG=$UPSTREAM_RELEASE" >> $GITHUB_ENV 
+          
+          sed -i "s/VERSION := .*/VERSION := $UPSTREAM_RELEASE/" Makefile
+          grep -F "VERSION :=" Makefile
+          git add Makefile
+          git config --global user.name "Gitlab-Action"
+          git config --global user.email "$OWNER@users.noreply.github.com"
+          git commit -am "Create Tag $UPSTREAM_RELEASE"
+          git tag $UPSTREAM_RELEASE
+          git push
+          git push --tags
+
+      - name: Retrieve Tag
+        if: startsWith(github.ref, 'refs/tags/')
+        id: build_tag
+        run: |
+          export BUILD_TAG=${GITHUB_REF#refs/*/}
+          echo "BUILD_TAG=${BUILD_TAG}" >> $GITHUB_ENV
+          sed -i "s/VERSION := .*/VERSION := $BUILD_TAG/" Makefile
+
+      - name: Build
+        if: startsWith(github.ref, 'refs/tags/') || steps.upstream_tag.outputs.BUILD == 'yes'
+        run: |
+          grep -F "VERSION :=" Makefile
+          pip install pyinstaller
+          make dist
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/') || steps.upstream_tag.outputs.BUILD == 'yes'
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: false
+          fail_on_unmatched_files: false
+          tag_name: ${{ env.BUILD_TAG }}
+          files: |
+            borgmatic-*-*.tar.gz
